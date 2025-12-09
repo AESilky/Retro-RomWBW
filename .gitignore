@@ -202,3 +202,8 @@ Source/ZPM3/setz3.com
 Tools/unix/OpenSpin/build/
 Tools/unix/zxcc/config.h
 Tools/unix/zxcc/zxcc
+
+# ES added
+_build.log
+Tools/unix/compress/compress
+Binary/RCZ80_zrc_std_hd1k_prefix.dat
