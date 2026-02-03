@@ -28,6 +28,7 @@ including RC26, RC40, RC80, and BP80.
 
 | **Description**                                             | **Bus** | **ROM Image File**           | **Baud Rate** |
 |-------------------------------------------------------------|---------|------------------------------|--------------:|
+| [RC2014 Z80 CPU Module], 512K RAM/ROM                       | RCBus   | RC2014_std.rom               | 115200        |
 | [RCBus Z80 CPU Module], 512K RAM/ROM                        | RCBus   | RCZ80_std.rom                | 115200        |
 | [RCBus Z80 CPU Module (KIO)], 512K w/KIO                    | RCBus   | RCZ80_kio_std.rom            | 115200        |
 | [RCBus Z180 CPU Module (External)]                          | RCBus   | RCZ180_ext_std.rom           | 115200        |
@@ -121,7 +122,7 @@ Others
 | [NABU w/ RomWBW Option Board]^5^                            | NABU     | NABU_std.rom                |        115200 |
 | [S100 Computers Z180 SBC]^4^                                | S100     | SZ180_std.rom               |         57600 |
 | [S100 Computers Z80 CPU]^4^                                 | S100     | SZ80_std.rom                |         19200 |
-| [S100 Computers T35 FPGA Z80 SBC]^4^                        | S100     | SZ80_t35.rom                |          9600 |
+| [S100 Computers T35 FPGA Z80 SBC]^4^                        | S100     | SZ80_t35_std.rom            |          9600 |
 | [UNA Hardware BIOS]^1^                                      | -        | UNA_std.rom                 |             - |
 | [Z80-Retro SBC]^3^                                          | -        | Z80RETRO_std.rom            |         38400 |
 | [Z180 Mark IV SBC]^1^                                       | ECB      | MK4_std.rom                 |         38400 |
@@ -444,7 +445,7 @@ Z80-based S100 Modular System
 #### Supported Hardware
 
 - FP: LEDIO=5
-- PLDSER: IO=172
+- DLPSER: IO=172
 - SCC MODE=SZ80, IO=160, CHANNEL A
 - SCC MODE=SZ80, IO=160, CHANNEL B
 - SCON: IO=0
@@ -477,7 +478,7 @@ A T35 FPGA Z80 based S100 SBC
 * Creator: John Monahan
 * Website: [S100 Computers FPGA Z80 SBC](http://www.s100computers.com/My%20System%20Pages/FPGA%20Z80%20SBC/FPGA%20Z80%20SBC.htm)
 
-#### ROM Image File:  SZ80_t35.rom
+#### ROM Image File:  SZ80_t35_std.rom
 
 |                   |               |
 |-------------------|---------------|
@@ -495,7 +496,7 @@ A T35 FPGA Z80 based S100 SBC
 - FP: LEDIO=255
 - DS5RTC: RTCIO=104, IO=104
 - TSER: IO=53
-- PLDSER: IO=172
+- DLPSER: IO=172
 - SCC MODE=SZ80, IO=160, CHANNEL A
 - SCC MODE=SZ80, IO=160, CHANNEL B
 - LPT: MODE=T35, IO=199
@@ -527,7 +528,7 @@ A T35 FPGA Z80 based S100 SBC
   See website for dip switch settings.
 
 - RomWBW is loaded by the S100 monitor from either CF Card or SD Card.
-  The CF/SD Card should be imaged using SZ80_t35_hd1k_combo.img which
+  The CF/SD Card should be imaged using SZ80_t35_std_hd1k_combo.img which
   includes RomWBW.
 
 `\clearpage`{=latex}
@@ -972,6 +973,59 @@ This is a variant of the N8 computer.
 `\clearpage`{=latex}
 
 ## RCBus Z80
+
+The RC2014 ROM is for the official RC2014 Kits by Spencer Owen.
+
+* Creator: Spencer Owen
+* Google Groups: [RC2014-Z80](https://groups.google.com/g/rc2014-z80)
+* Github: [RC2014](https://github.com/RC2014Z80/RC2014)
+
+### RC2014 Z80 CPU Module
+
+Generic Rom Image.
+
+#### ROM Image File:  RC2014_std.rom
+
+|                   |               |
+|-------------------|---------------|
+| Bus               | RCBus         |
+| Default CPU Speed | 7.372 MHz     |
+| Interrupts        | Mode 1        |
+| System Timer      | None          |
+| Serial Default    | 115200 Baud   |
+| Memory Manager    | Z2            |
+| ROM Size          | 512 KB        |
+| RAM Size          | 512 KB        |
+
+#### Supported Hardware
+
+- FP: LEDIO=0, SWIO=0
+- LCD: IO=218, SIZE=20X4
+- DSRTC: MODE=STD, IO=192
+- UART: IO=128
+- UART: IO=136
+- UART: IO=160
+- UART: IO=168
+- SIO MODE=RC, IO=128, CHANNEL A, INTERRUPTS ENABLED
+- SIO MODE=RC, IO=128, CHANNEL B, INTERRUPTS ENABLED
+- SIO MODE=RC, IO=132, CHANNEL A, INTERRUPTS ENABLED
+- SIO MODE=RC, IO=132, CHANNEL B, INTERRUPTS ENABLED
+- ACIA: IO=128, INTERRUPTS ENABLED
+- CH: IO=62
+- CH: IO=60
+- CHUSB: IO=62
+- CHUSB: IO=60
+- MD: TYPE=RAM
+- MD: TYPE=ROM
+- FD: MODE=RCWDC, IO=80, DRIVE 0, TYPE=3.5" HD
+- FD: MODE=RCWDC, IO=80, DRIVE 1, TYPE=3.5" HD
+- IDE: MODE=RC, IO=16, MASTER
+- IDE: MODE=RC, IO=16, SLAVE
+- PPIDE: IO=32, MASTER
+- PPIDE: IO=32, SLAVE
+- SD: MODE=PIO, IO=105, UNITS=1
+
+`\clearpage`{=latex}
 
 ### RCBus Z80 CPU Module
 
@@ -1955,7 +2009,7 @@ as defined by the IEEE-696 specs.
 #### Supported Hardware
 
 - INTRTC: ENABLED
-- PLDSER: IO=172
+- DLPSER: IO=172
 - ASCI: IO=192, INTERRUPTS ENABLED
 - ASCI: IO=193, INTERRUPTS ENABLED
 - SCC MODE=SZ80, IO=160, CHANNEL A
@@ -2435,7 +2489,7 @@ may be discovered by RomWBW in your system.
 | SCC       | Zilog Serial Communications Controller (SCC)           |
 | SSER      | Simple Serial Interface                                |
 | TSER      | Trion FPGA Serial Interface                            |
-| PLDSER    | PLD USB Serial Interface                               |
+| DLPSER    | DLP USB Serial Interface                               |
 | UART      | 16C550 Family Serial Interface                         |
 | USB-FIFO  | FT232H-based ECB USB FIFO                              |
 | Z2U       | Zilog Z280 CPU Built-in Serial Ports                   |
@@ -2455,7 +2509,7 @@ the active platform and configuration.
 #. ACIA: MC68B50 Asynchronous Communications Interface Adapter
 #. SSER: Simple Serial Interface
 #. TSER: Trion FPGA Serial Interface
-#. PLDSER: PLD USB Serial Interface
+#. DLPSER: DLP USB Serial Interface
 #. USB-FIFO: FT232H-based ECB USB FIFO
 
 
@@ -2478,6 +2532,7 @@ the active platform and configuration.
 | SD        | SD Card Interface                                      |
 | SYQ       | Iomega SparQ Drive on PPI                              |
 | ESPSD     | S100 ESP32-based SD Card Interface                     |
+| SCSI      | 5380 SCSI Interface                                    |
 
 ## Video
 
@@ -2561,6 +2616,7 @@ Note:
 | KIO       | Zilog Serial/ Parallel Counter/Timer (Z84C90)          |
 | PPP       | ParPortProp Host Interface Controller                  |
 | PRP       | PropIO Host Interface Controller                       |
+| SCTIM     | SC737 50Hz System Timer                                |
 
 # UNA Hardware BIOS
 

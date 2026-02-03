@@ -1101,6 +1101,7 @@ below enumerates their values.
 | DIODEV_CHSD     | 0x0E   | CH375/376 SD Card                        | ch.asm     |
 | DIODEV_USB      | 0x0F   | CH376 Native USB Device                  | ch376.asm  |
 | DIODEV_ESPSD    | 0x10   | S100 ESP32 SD Card                       | espsd.asm  |
+| DIODEV_SCSI     | 0x11   | 5380 SCSI Interface                      | scsi.asm   |
 
 A fixed set of media types are defined. The currently defined media 
 types identifiers are listed below. Each driver will support one or
@@ -2986,7 +2987,7 @@ HBIOS result code.
 
 This function returns information about the active CPU environment. The 
 Z80 CPU Variant (H) will be one of: 0=Z80, 1=Z180, 2=Z180-K, 3=Z180-N, 
-4=Z280.  The current CPU speed is provided as both CPU Speed MHz (L) and
+4=Z280, 5=eZ80.  The current CPU speed is provided as both CPU Speed MHz (L) and
 CPU Speed KHz (DE).  The raw oscillator speed is provided as Oscillator
 Speed KHz (BC).  The returned Status (A) is a standard HBIOS result 
 code.
@@ -3148,6 +3149,9 @@ This function sets information about the most recent boot operation
 performed.  It includes the Boot Bank ID (L), the Boot Disk Unit (D), 
 and the Boot Disk Slice (E).  The returned Status (A) is a standard 
 HBIOS result code.
+
+This information is recorded in the HCB.  HCB_BOOTBID is set to the Boot
+Bank ID (L) and HCB_BOOTVOL is set to the BootDisk Unit/Slice (DE).
 
 #### SYSSET Subfunction 0xF3 -- Set CPU Speed (CPUSPD)
 

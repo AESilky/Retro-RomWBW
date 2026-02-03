@@ -317,9 +317,13 @@ SD_INVCS	.EQU	FALSE		; INVERT CS
 ;	shield attached and are the ones also used in other bitbang setups
 ;	directly attached to a PIO. It also works on a straight digital I/O
 ;	port as the config writes will disappear into oblivion harmlessly
-;	
+;
 ;	The Gluino mapping (ie Arduino pin mapping equivalent) is thus
 ;	D10 SS, D11 CIPO, D12 COPI, D13 SCL.
+;
+;	This config also works for Steve Cousins SD Card Boards such as
+;	SC611 and SC734.  These cards do not require DDR manipulation,
+;	but the DDR writes are benign at this point.
 ;
 ;	For speed reasons MISO/MOSI are mapped to the top and bottom bits.
 ;	RomWBW doesn't yet use this fact but the optimized Fuzix routines do.
@@ -527,6 +531,23 @@ SD_STDATATO	.EQU	-7		; DATA TRANSFER TIMEOUT
 SD_STCRCERR	.EQU	-8		; CRC ERROR ON RECEIVED DATA PACKET
 SD_STNOMEDIA	.EQU	-9		; NO MEDIA IN CONNECTOR
 SD_STWRTPROT	.EQU	-10		; ATTEMPT TO WRITE TO WRITE PROTECTED MEDIA
+;
+;--------------------------------------------------------------------------------------------------
+;   HBIOS MODULE HEADER
+;--------------------------------------------------------------------------------------------------
+;
+ORG_SD	.EQU	$
+;
+	.DW	SIZ_SD			; MODULE SIZE
+	.DW	SD_INITPHASE		; ADR OF INIT PHASE HANDLER
+;
+SD_INITPHASE:
+	; INIT PHASE HANDLER, A=PHASE
+	;CP	HB_PHASE_PREINIT	; PREINIT PHASE?
+	;JP	Z,SD_PREINIT		; DO PREINIT
+	CP	HB_PHASE_INIT		; INIT PHASE?
+	JP	Z,SD_INIT		; DO INIT
+	RET				; DONE
 ;
 ; IDE DEVICE CONFIGURATION
 ;
@@ -2715,3 +2736,14 @@ MIRTAB	.DB 00H, 80H, 40H, 0C0H, 20H, 0A0H, 60H, 0E0H, 10H, 90H, 50H, 0D0H, 30H, 
 	.DB 0FH, 8FH, 4FH, 0CFH, 2FH, 0AFH, 6FH, 0EFH, 1FH, 9FH, 5FH, 0DFH, 3FH, 0BFH, 7FH, 0FFH
 ;
 #ENDIF
+;
+;--------------------------------------------------------------------------------------------------
+;   HBIOS MODULE TRAILER
+;--------------------------------------------------------------------------------------------------
+;
+END_SD	.EQU	$
+SIZ_SD	.EQU	END_SD - ORG_SD
+;	
+	MEMECHO	"SD occupies "
+	MEMECHO	SIZ_SD
+	MEMECHO	" bytes.\n"
